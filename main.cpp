@@ -1,4 +1,5 @@
 #include "Canvas.h"
+#include "DrawLine.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_main.h>
@@ -44,12 +45,16 @@ int main()
 		SDL_SetRenderTarget(renderer, texture);
 		SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(renderer);
-		for (int i = 0; i <= 100; i++)
-			canvas.putPixel(i, i, {0x00, 0x00, 0x00});
+		DrawLine(canvas, {0, 0}, {100, 100}, {0x00, 0x00, 0x00});
+		DrawLine(canvas, {0, 0}, {100, 0}, {0x00, 0x00, 0x00});
+		DrawLine(canvas, {100, 0}, {100, 100}, {0x00, 0x00, 0x00});
 		SDL_UpdateTexture(texture, NULL, canvas.pixels.data(),
 						  screenWidth * sizeof(uint32_t));
 		SDL_RenderTexture(renderer, texture, NULL, NULL);
 		SDL_RenderPresent(renderer);
 	}
+	SDL_DestroyTexture(texture);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
 	return 0;
 }
